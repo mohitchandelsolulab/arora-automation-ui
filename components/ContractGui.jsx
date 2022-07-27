@@ -3,25 +3,33 @@ import { Form, Button } from "react-bootstrap";
 
 export const ContractGui = ({ funcName, inputs, funcType }) => {
 
-  const [formData, setFormData] = useState([]);
+  const [formInputData, setFormInputData] = useState([])
+  const [formData, setFormData] = useState([{}]);
+
   const [fncOutput, setFncOutput] = useState();
 
   const callFunction = () => {
     console.log(formData);
   };
 
-  const setFormInputData = (event, index, funcName) => {
+  const setInputData = (event, index) => {
     const { value } = event.target;
-    const newData = [...formData];
+    const newData = [...formInputData];
     newData[index] = {
       ...newData[index],
-      "inputName": funcName,
-      "value": value,
-      "funcType": funcType
+      [index]: value,
     };
-    setFormData(newData);
+    setFormInputData(newData);
   };
-
+  
+  useEffect(() => {
+    setFormData([{
+      "methodName": funcName,
+      "arguments": formInputData,
+      "functionType": funcType
+    }])
+  }, [formInputData])
+  
   return (
     <>
       <Form>
@@ -33,7 +41,7 @@ export const ContractGui = ({ funcName, inputs, funcType }) => {
                 type="text"
                 placeholder={`${input.name}(${input.type})`}
                 onChange={(e) => {
-                  setFormInputData(e, index, input.name);
+                  setInputData(e, index, input.name);
                 }}
               />
             </Form.Group>
@@ -46,7 +54,7 @@ export const ContractGui = ({ funcName, inputs, funcType }) => {
           {funcType != "view" ? "Call" : "View"}
         </Button>
       </Form>
-      <p>Output : {fncOutput}</p>
+      <p className="mt-3">Output : {fncOutput}</p>
     </>
   );
 };
