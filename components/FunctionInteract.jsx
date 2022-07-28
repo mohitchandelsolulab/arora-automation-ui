@@ -1,12 +1,12 @@
-import React from "react";
-import { Container, Row, Col, Accordion } from "react-bootstrap";
-import { ContractGui } from "./ContractGui";
+import React from 'react';
+import { Container, Row, Col, Accordion } from 'react-bootstrap';
+import { ContractGui } from './ContractGui';
 
-const abi = require("../abi.json");
+const abi = require('../abi.json');
 
 const contractABI = abi.abi ? abi.abi : abi;
 
-export const FunctionIntract = () => {
+export const FunctionInteract = () => {
   return (
     <>
       <Container className="mt-5">
@@ -16,11 +16,11 @@ export const FunctionIntract = () => {
             <Accordion defaultActiveKey="0">
               {abi &&
                 contractABI.map((func, index) => {
-                  if (func.type !== "function") return null;
+                  if (func.type !== 'function') return null;
                   return (
                     <Accordion.Item key={index} eventKey={index}>
                       <Accordion.Header>
-                        {func.name + " (" + func.stateMutability + ") "}
+                        {func.name + ' (' + func.stateMutability + ') '}
                       </Accordion.Header>
                       <Accordion.Body>
                         <ContractGui
